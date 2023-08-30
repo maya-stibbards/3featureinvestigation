@@ -1,27 +1,21 @@
-install.packages("htmltools")
-BiocManager::install("DESeq2")
-BiocManager::install("GEOquery")
-BiocManager::install("knitr")
-BiocManager::install("GEOquery")
-install.packages("conflicted")
-BiocManager::install("biomaRt")
-BiocManager::install("org.Hs.eg.db")
-BiocManager::install("AnnotationDbi")
+install.packages(c("htmltools","conflicted"))
+BiocManager::install(c("DESeq2","GEOquery","knitr","biomaRt","org.Hs.eg.db","AnnotationDbi"))
 
+library(conflicted)
 library(GEOquery)
 library(DESeq2)
 library(ggplot2)
 library(htmltools)
 library(dplyr)
-library(conflicted)
 library(tidyverse)
 library(biomaRt)
 library(org.Hs.eg.db)
 library(AnnotationDbi)
 
-gse <- getGEO(filename="C:/Users/Maya/OneDrive - University of Calgary/Maya's folder/Summer students/3featureinvestigation/GSE111842_series_matrix (2).txt.gz", GSEMatrix = FALSE)
-
 setwd("C:/Users/Maya/OneDrive - University of Calgary/Maya's folder/Summer students/3featureinvestigation/files")
+
+gse <- getGEO(filename="C:/Users/Maya/OneDrive - University of Calgary/Maya's folder/Summer students/3featureinvestigation/GSE191142_series_matrix.txt.gz", GSEMatrix = FALSE)
+
 
 listed_files <- list.files("C:/Users/Maya/OneDrive - University of Calgary/Maya's folder/Summer students/3featureinvestigation/files", pattern=".gz")
 
@@ -48,6 +42,9 @@ dds <- DESeqDataSetFromMatrix(
 dds <- DESeq(dds)
 res <- results(dds)
 head(results(dds, tidy=TRUE))
+
+summary(res)
+
 
 res <- res[order(res$padj),]
 head(res)
